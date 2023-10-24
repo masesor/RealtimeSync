@@ -1,0 +1,4 @@
+directories:
+  - /path/to/source/directory
+target_dir: "/path/to/target/directory"
+log_location: /path/to/log/directory
