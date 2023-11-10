@@ -19,7 +19,7 @@ This is a simple python script that will watch a list of predefined directories 
 
 3. Execute
    ```sh
-   python realtime_sync.py
+   python realtime_sync.py config.yaml
 
 Optionally, you can install as a service so it runs on startup automatically.
 
@@ -37,6 +37,7 @@ Optionally, you can install as a service so it runs on startup automatically.
 	    <array>
 		<string>python</string>
 		<string>/path/to/realtime_sync.py</string>
+		<string>/path/to/config.yaml</string>
 	    </array>
 	    <key>RunAtLoad</key>
 	    <true/>
@@ -51,8 +52,8 @@ Optionally, you can install as a service so it runs on startup automatically.
 
 2. Load plist
    ```sh
-      load ~/Library/LaunchAgents/com.myname.backupscript.plist
+      launchctl load ~/Library/LaunchAgents/com.myname.backupscript.plist
 
 3. To unload: 
    ```sh
-      unload ~/Library/LaunchAgents/com.myname.backupscript.plist
+      launchctl unload ~/Library/LaunchAgents/com.myname.backupscript.plist

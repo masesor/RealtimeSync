@@ -5,6 +5,7 @@ import logging
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import subprocess
+import sys
 
 class BackupHandler(FileSystemEventHandler):
     def __init__(self, src_path, dest_path):
@@ -27,11 +28,11 @@ class BackupHandler(FileSystemEventHandler):
         else:
             src = self.src_path
             dest = os.path.dirname(self.dest_path)
-        
+
         logging.info(f"Starting backup: {src} to {dest}")
-        
+
         result = subprocess.run(['rsync', '-avh', '--checksum', '--delete', src, dest], capture_output=True, text=True)
-        
+
         if result.returncode == 0:
             logging.info(f"Backup completed: {src} to {dest}")
         else:
@@ -43,11 +44,17 @@ def load_config(yaml_file):
     return config
 
 def main():
-    CONFIG_FILE = "./config.yaml"
-    config = load_config(CONFIG_FILE)
+    if len(sys.argv) < 2:
+        print("Usage: python realtime_sync.py <config_file_path>")
+        sys.exit(1)
+
+    config_file_path = sys.argv[1]
+    config = load_config(config_file_path)
 
     # Set up logging
-    logging.basicConfig(filename=f'{config.log_location}/backup.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+    logging.basicConfig(filename=f'{config.get("log_location")}/backup.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
     directories = config.get('directories', [])
     TARGET_DIR = config.get('target_dir')
