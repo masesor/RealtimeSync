@@ -19,7 +19,7 @@ This is a simple python script that will watch a list of predefined directories 
 
 3. Execute
    ```sh
-   python realtime_sync.py
+   python realtime_sync.py config.yaml
 
 Optionally, you can install as a service so it runs on startup automatically.
 
@@ -37,6 +37,7 @@ Optionally, you can install as a service so it runs on startup automatically.
 	    <array>
 		<string>python</string>
 		<string>/path/to/realtime_sync.py</string>
+		<string>/path/to/config.yaml</string>
 	    </array>
 	    <key>RunAtLoad</key>
 	    <true/>
